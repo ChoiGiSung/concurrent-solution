@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.Executors
 
 @SpringBootTest
 class StockServiceTest {
@@ -20,22 +22,45 @@ class StockServiceTest {
     lateinit var stockRepository: StockRepository
 
     @BeforeEach
-    fun before(){
-        val stock = Stock(1L,100L)
+    fun before() {
+        val stock = Stock(1L, 100L)
         stockRepository.saveAndFlush(stock)
     }
 
     @AfterEach
-    fun after(){
+    fun after() {
         stockRepository.deleteAll()
     }
 
     @Test
-    fun `재고 감소`(){
-        stockService.decrease(1L,1L)
+    fun `재고 감소`() {
+        stockService.decrease(1L, 1L)
 
         val stock = stockRepository.findById(1L).orElseThrow()
 
         assertThat(stock.quantity).isEqualTo(99)
+    }
+
+    @Test
+    fun `동시에 100개의 요청`() {
+        val threadCount = 100
+        val executorService = Executors.newFixedThreadPool(32)
+        val countDouLatch = CountDownLatch(threadCount)
+
+        for (i in 0..threadCount) {
+            executorService.submit {
+                try {
+                    stockService.decrease(1L, 1L)
+                }finally {
+                    countDouLatch.countDown()
+                }
+            }
+        }
+
+        countDouLatch.await()
+
+        val stock = stockRepository.findById(1L).orElseThrow()
+
+        assertThat(stock.quantity).isEqualTo(0L)
     }
 }
