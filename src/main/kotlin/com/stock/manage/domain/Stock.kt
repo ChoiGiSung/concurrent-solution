@@ -17,7 +17,7 @@ class Stock(
 
     fun decrease(quantity: Long) {
         val decreaseQuantity = this.quantity - quantity
-        assert(decreaseQuantity > 0)
+        assert(decreaseQuantity >= 0)
         this.quantity = decreaseQuantity
     }
 }

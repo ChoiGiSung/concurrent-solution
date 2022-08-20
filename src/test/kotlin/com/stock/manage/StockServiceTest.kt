@@ -47,7 +47,7 @@ class StockServiceTest {
         val executorService = Executors.newFixedThreadPool(32)
         val countDouLatch = CountDownLatch(threadCount)
 
-        for (i in 0..threadCount) {
+        for (i in 1..threadCount) {
             executorService.submit {
                 try {
                     stockService.decrease(1L, 1L)

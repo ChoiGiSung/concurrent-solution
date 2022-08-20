@@ -8,6 +8,7 @@ class StockService(
     private val stockRepository: StockRepository
 ) {
 
+    @Synchronized
     fun decrease(id :Long, quantity: Long){
         // get stock
         // 재고 감소
