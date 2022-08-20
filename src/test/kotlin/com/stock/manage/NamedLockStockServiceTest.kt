@@ -1,6 +1,7 @@
 package com.stock.manage
 
 import com.stock.manage.domain.Stock
+import com.stock.manage.facade.NameLockStockFacade
 import com.stock.manage.facade.OptimisticLockStockFacade
 import com.stock.manage.repository.StockRepository
 import com.stock.manage.service.PessimisticStockService
@@ -15,10 +16,10 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 
 @SpringBootTest
-class OptimisticStockServiceTest {
+class NamedLockStockServiceTest {
 
     @Autowired
-    lateinit var stockService: OptimisticLockStockFacade
+    lateinit var stockService: NameLockStockFacade
 
     @Autowired
     lateinit var stockRepository: StockRepository
