@@ -56,6 +56,7 @@ class OptimisticStockServiceTest {
                 }finally {
                     countDouLatch.countDown()
                 }
+                
             }
         }
 
