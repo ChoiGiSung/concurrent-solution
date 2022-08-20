@@ -2,6 +2,7 @@ package com.stock.manage
 
 import com.stock.manage.domain.Stock
 import com.stock.manage.repository.StockRepository
+import com.stock.manage.service.PessimisticStockService
 import com.stock.manage.service.StockService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
@@ -16,7 +17,7 @@ import java.util.concurrent.Executors
 class StockServiceTest {
 
     @Autowired
-    lateinit var stockService: StockService
+    lateinit var stockService: PessimisticStockService
 
     @Autowired
     lateinit var stockRepository: StockRepository
